@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://asia-northeast3-maven.pkg.dev/moment-prod-16047/moment-prod-trigger"
+            // TODO: Replace MAVEN_SECRET.
+            credentials {
+                username = "_json_key_base64"
+                password = "MAVEN_SECRET"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
+rootProject.name = "poc"
+include ':app'

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Fairy Technologies CONFIDENTIAL
+  ~ __________________
+  ~
+  ~ Copyright (C) Fairy Technologies, Inc - All Rights Reserved
+  ~
+  ~ NOTICE:  All information contained herein is, and remains the property of Fairy
+  ~ Technologies Incorporated and its suppliers, if any. The intellectual and technical
+  ~ concepts contained herein are proprietary to Fairy Technologies Incorporated
+  ~ and its suppliers and may be covered by U.S. and Foreign Patents, patents in
+  ~ process, and are protected by trade secret or copyright law.
+  ~
+  ~ Dissemination of this information,or reproduction or modification of this material
+  ~ is strictly forbidden unless prior written permission is obtained from Fairy
+  ~ Technologies Incorporated.
+  ~
+  -->
+
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name="ai.fairytech.moment.poc.MyApplication"
+        android:allowBackup="false"
+        android:requestLegacyExternalStorage="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Poc">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".BusinessMatchReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ai.fairytech.moment.action.BUSINESS_TRIGGER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- TODO: Replace PROJECT_ID and SDK_API_KEY -->
+        <meta-data
+            android:name="ai.fairytech.moment.PROJECT_ID"
+            android:value="PROJECT_ID" />
+        <meta-data
+            android:name="ai.fairytech.moment.API_KEY"
+            android:value="SDK_API_KEY" />
+    </application>
+
+</manifest>

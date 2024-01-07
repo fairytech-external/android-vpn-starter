@@ -1,0 +1,34 @@
+<!--
+  ~ Fairy Technologies CONFIDENTIAL
+  ~ __________________
+  ~
+  ~ Copyright (C) Fairy Technologies, Inc - All Rights Reserved
+  ~
+  ~ NOTICE:  All information contained herein is, and remains the property of Fairy
+  ~ Technologies Incorporated and its suppliers, if any. The intellectual and technical
+  ~ concepts contained herein are proprietary to Fairy Technologies Incorporated
+  ~ and its suppliers and may be covered by U.S. and Foreign Patents, patents in
+  ~ process, and are protected by trade secret or copyright law.
+  ~
+  ~ Dissemination of this information,or reproduction or modification of this material
+  ~ is strictly forbidden unless prior written permission is obtained from Fairy
+  ~ Technologies Incorporated.
+  ~
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Poc" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

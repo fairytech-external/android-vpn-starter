@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Fairy Technologies CONFIDENTIAL
+  ~ __________________
+  ~
+  ~ Copyright (C) Fairy Technologies, Inc - All Rights Reserved
+  ~
+  ~ NOTICE:  All information contained herein is, and remains the property of Fairy
+  ~ Technologies Incorporated and its suppliers, if any. The intellectual and technical
+  ~ concepts contained herein are proprietary to Fairy Technologies Incorporated
+  ~ and its suppliers and may be covered by U.S. and Foreign Patents, patents in
+  ~ process, and are protected by trade secret or copyright law.
+  ~
+  ~ Dissemination of this information,or reproduction or modification of this material
+  ~ is strictly forbidden unless prior written permission is obtained from Fairy
+  ~ Technologies Incorporated.
+  ~
+  -->
+
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
