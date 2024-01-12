@@ -18,15 +18,25 @@
 
 package ai.fairytech.moment.poc
 
+import ai.fairytech.moment.constants.ActionNameConstants
+import ai.fairytech.moment.constants.ExtraNameConstants
+import ai.fairytech.moment.notification.ActivityMatchType
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.Toast
 
 class BusinessMatchReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action != "ai.fairytech.moment.action.BUSINESS_TRIGGER") return
-        val businessId = intent.getStringExtra("business_id")
-        Toast.makeText(context, "비즈니스 인식 (id: $businessId)", Toast.LENGTH_SHORT).show()
+        if (intent?.action != ActionNameConstants.TRIGGER_BROADCAST_ACTION_NAME) return
+        val businessId = intent.getStringExtra(ExtraNameConstants.BUSINESS_ID_EXTRA_NAME)
+        val matchType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(ExtraNameConstants.ACTIVITY_MATCH_TYPE_EXTRA_NAME, ActivityMatchType::class.java)
+        } else {
+            @Suppress("DEPRECATION") intent.getSerializableExtra(ExtraNameConstants.ACTIVITY_MATCH_TYPE_EXTRA_NAME) as ActivityMatchType
+        }
+        val timestamp = intent.getLongExtra(ExtraNameConstants.TIMESTAMP_MILLIS_EXTRA_NAME, 0)
+        Toast.makeText(context, "비즈니스 인식 (id: $businessId, type: $matchType, timestamp: $timestamp)", Toast.LENGTH_SHORT).show()
     }
 }
