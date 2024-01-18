@@ -22,6 +22,7 @@ import ai.fairytech.moment.MomentSDK
 import ai.fairytech.moment.exception.ErrorCode
 import ai.fairytech.moment.exception.MomentException
 import ai.fairytech.moment.poc.NotificationConstants
+import ai.fairytech.moment.poc.R
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -132,6 +133,8 @@ class MainFragment : Fragment() {
                 .serviceNotificationChannelId(NotificationConstants.SERVICE_NOTIFICATION_CHANNEL_ID) // 서비스를 위해 필요한 채널아이디
                 .serviceNotificationTitle("비즈니스 인식 서비스")
                 .serviceNotificationText("비즈니스 인식 서비스 동작중")
+                .serviceNotificationIconResId(R.drawable.baseline_mood_24)
+                .serviceNotificationIconColorInt(resources.getColor(R.color.purple_500, null))
             moment.start(config, object : MomentSDK.ResultCallback {
                 override fun onSuccess() {
                     Handler(Looper.getMainLooper()).post {
