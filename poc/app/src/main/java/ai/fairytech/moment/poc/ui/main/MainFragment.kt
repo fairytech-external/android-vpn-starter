@@ -21,6 +21,7 @@ package ai.fairytech.moment.poc.ui.main
 import ai.fairytech.moment.MomentSDK
 import ai.fairytech.moment.exception.ErrorCode
 import ai.fairytech.moment.exception.MomentException
+import ai.fairytech.moment.poc.MyApplication
 import ai.fairytech.moment.poc.NotificationConstants
 import ai.fairytech.moment.poc.R
 import androidx.lifecycle.ViewModelProvider
@@ -46,11 +47,14 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var moment: MomentSDK
     private lateinit var viewModel: MainViewModel
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val moment: MomentSDK? by lazy {
+        (activity?.application as MyApplication?)?.moment
+    }
 
     // 알림 권한 허용
     private val notificationPermissionLauncher: ActivityResultLauncher<String> =
@@ -78,7 +82,7 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.startService.isChecked = moment.isRunning
+        binding.startService.isChecked = moment?.isRunning == true
     }
 
     override fun onCreateView(
@@ -99,7 +103,6 @@ class MainFragment : Fragment() {
         /** 권한 관련 **/
         // 알림 권한 없을시 받음
         requireContext().let {
-            moment = MomentSDK.getInstance(it)
             if (!MomentSDK.isNotificationPermissionGranted(it)
                 && canAskRuntimeNotiPermission()
             ) {
@@ -108,7 +111,7 @@ class MainFragment : Fragment() {
 
             // 서비스를 시작하는 스위치
             binding.startService.isChecked = MomentSDK.isAppUsagePermissionGranted(it)
-                    && moment.isRunning()
+                    && moment?.isRunning == true
             binding.startService.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     binding.startService.isEnabled = false
@@ -135,7 +138,7 @@ class MainFragment : Fragment() {
                 .serviceNotificationText("비즈니스 인식 서비스 동작중")
                 .serviceNotificationIconResId(R.drawable.baseline_mood_24)
                 .serviceNotificationIconColorInt(resources.getColor(R.color.purple_500, null))
-            moment.start(config, object : MomentSDK.ResultCallback {
+            moment?.start(config, object : MomentSDK.ResultCallback {
                 override fun onSuccess() {
                     Handler(Looper.getMainLooper()).post {
                         binding.startService.isEnabled = true
@@ -161,7 +164,7 @@ class MainFragment : Fragment() {
     // 서비스 정지
     private fun handleStop() {
         try {
-            moment.stop()
+            moment?.stop()
         } catch (e: MomentException) {
             binding.startService.isChecked = true
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()

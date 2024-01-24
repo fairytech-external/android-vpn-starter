@@ -18,6 +18,7 @@
 
 package ai.fairytech.moment.poc
 
+import ai.fairytech.moment.MomentSDK
 import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
@@ -25,6 +26,10 @@ import android.app.NotificationManager
 import android.os.Build
 
 class MyApplication: Application() {
+    val moment: MomentSDK by lazy {
+        MomentSDK.getInstance(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
         createServiceNotificationChannel()
