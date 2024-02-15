@@ -31,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ai.fairytech.moment.poc.databinding.FragmentMainBinding
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Handler
@@ -118,9 +119,21 @@ class MainFragment : Fragment() {
                     if (MomentSDK.isAppUsagePermissionGranted(it)) {
                         handleStart()
                     } else {
-                        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-                        intent.data = Uri.fromParts("package", it.packageName, null)
-                        appUsagePermissionLauncher.launch(intent)
+                        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) {
+                            val intent = Intent()
+                            intent.setComponent(
+                                ComponentName(
+                                    "com.android.settings",
+                                    "com.android.settings.Settings\$UsageAccessSettingsActivity"
+                                )
+                            )
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        } else {
+                            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                            intent.data = Uri.fromParts("package", context.packageName, null)
+                            appUsagePermissionLauncher.launch(intent)
+                        }
                     }
                 } else {
                     handleStop()
