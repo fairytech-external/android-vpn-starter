@@ -131,7 +131,7 @@ class MainFragment : Fragment() {
                             startActivity(intent)
                         } else {
                             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-                            intent.data = Uri.fromParts("package", context.packageName, null)
+                            intent.data = Uri.fromParts("package", it.packageName, null)
                             appUsagePermissionLauncher.launch(intent)
                         }
                     }
