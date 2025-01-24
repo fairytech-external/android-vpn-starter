@@ -11,7 +11,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url "https://asia-northeast3-maven.pkg.dev/moment-prod-16047/moment-prod-trigger"
+            // TODO: Uncomment one of the following repositories.
+//            url "https://asia-northeast3-maven.pkg.dev/moment-prod-16047/moment-x"
+            url "https://asia-northeast3-maven.pkg.dev/moment-prod-16047/moment-vpn"
             // TODO: Replace MAVEN_SECRET.
             credentials {
                 username = "_json_key_base64"

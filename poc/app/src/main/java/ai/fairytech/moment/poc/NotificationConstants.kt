@@ -22,4 +22,5 @@ object NotificationConstants {
     const val SERVICE_NOTIFICATION_CHANNEL_ID = "service-notification-channel-id"
     const val SERVICE_NOTIFICATION_CHANNEL_NAME = "Service"
     const val SERVICE_NOTIFICATION_CHANNEL_DESCRIPTION = "Default notification channel for service"
+    const val SERVICE_NOTIFICATION_ID = 2345
 }

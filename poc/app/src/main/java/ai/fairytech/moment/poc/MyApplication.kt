@@ -24,7 +24,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 class MyApplication: Application() {
     val moment: MomentSDK by lazy {
@@ -34,7 +33,6 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         createServiceNotificationChannel()
-        RxJavaPlugins.setErrorHandler { }
     }
 
     private fun createServiceNotificationChannel() {
