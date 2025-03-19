@@ -19,10 +19,7 @@
 package ai.fairytech.moment.poc.ui.main
 
 import ai.fairytech.moment.MomentSDK
-import ai.fairytech.moment.dispatchDisplayHint
-import ai.fairytech.moment.exception.ErrorCode
 import ai.fairytech.moment.exception.MomentException
-import ai.fairytech.moment.poc.MyApplication
 import ai.fairytech.moment.poc.NotificationConstants
 import ai.fairytech.moment.poc.R
 import androidx.lifecycle.ViewModelProvider
@@ -33,19 +30,14 @@ import android.view.View
 import android.view.ViewGroup
 import ai.fairytech.moment.poc.databinding.FragmentMainBinding
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.net.Uri
 import android.net.VpnService
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -158,14 +150,28 @@ class MainFragment : Fragment() {
     private fun handleStart() {
         try {
             val config = MomentSDK.Config(requireContext())
+                .notificationChannelId(NotificationConstants.NOTIFICATION_CHANNEL_ID)
+                .notificationId(NotificationConstants.NOTIFICATION_ID)
+                .notificationIconResId(R.drawable.baseline_mood_24)
                 .serviceNotificationChannelId(NotificationConstants.SERVICE_NOTIFICATION_CHANNEL_ID) // 서비스를 위해 필요한 채널아이디
                 .serviceNotificationId(NotificationConstants.SERVICE_NOTIFICATION_ID)
                 .serviceNotificationTitle("\uD83D\uDFE2 Fairy service")
                 .serviceNotificationText("Service is running.")
                 .serviceNotificationIconResId(R.drawable.baseline_mood_24)
                 .serviceNotificationIconColorInt(resources.getColor(R.color.purple_500, null))
-            moment.userId = "test_user_id"
-            moment.isMarketingPushEnabled = true
+            moment.setUserId("test_user_id", object : MomentSDK.ResultCallback {
+                override fun onSuccess() {
+                    Toast.makeText(context, "Successfully set user id.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(e: MomentException) {
+                    Toast.makeText(context, "Failed to set user id.", Toast.LENGTH_SHORT).show()
+                    Log.e(
+                        "MomentSDK",
+                        "setUserId onFailure(${e.errorCode.name}): ${e.message}"
+                    )
+                }
+            })
             moment.start(config, object : MomentSDK.ResultCallback {
                 override fun onSuccess() {
                     Toast.makeText(context, "Successfully started.", Toast.LENGTH_SHORT).show()
