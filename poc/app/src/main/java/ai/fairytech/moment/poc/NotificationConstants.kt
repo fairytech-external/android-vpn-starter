@@ -19,6 +19,10 @@
 package ai.fairytech.moment.poc
 
 object NotificationConstants {
+    const val NOTIFICATION_CHANNEL_ID = "notification-channel-id"
+    const val NOTIFICATION_CHANNEL_NAME = "notification-channel-name"
+    const val NOTIFICATION_CHANNEL_DESCRIPTION = "Default notification channel"
+    const val NOTIFICATION_ID = 1129
     const val SERVICE_NOTIFICATION_CHANNEL_ID = "service-notification-channel-id"
     const val SERVICE_NOTIFICATION_CHANNEL_NAME = "Service"
     const val SERVICE_NOTIFICATION_CHANNEL_DESCRIPTION = "Default notification channel for service"
