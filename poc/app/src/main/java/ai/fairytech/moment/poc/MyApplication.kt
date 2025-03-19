@@ -33,9 +33,11 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         createServiceNotificationChannel()
+        createNotificationChannel()
     }
 
     private fun createServiceNotificationChannel() {
+
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -47,6 +49,25 @@ class MyApplication: Application() {
             channel.setShowBadge(false)
             channel.lockscreenVisibility = Notification.VISIBILITY_SECRET
             channel.description = NotificationConstants.SERVICE_NOTIFICATION_CHANNEL_DESCRIPTION
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NotificationConstants.NOTIFICATION_CHANNEL_ID,
+                NotificationConstants.NOTIFICATION_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            channel.setShowBadge(false)
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channel.description = NotificationConstants.NOTIFICATION_CHANNEL_DESCRIPTION
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             val notificationManager = getSystemService(
