@@ -34,6 +34,26 @@ class MyApplication: Application() {
         super.onCreate()
         createServiceNotificationChannel()
         createNotificationChannel()
+        moment.restartIfNeeded(getConfig(context), object :
+            MomentSDK.RestartResultCallback {
+            override fun onSuccess(resultCode: MomentSDK.RestartResultCode) {
+                if (resultCode == MomentSDK.RestartResultCode.SERVICE_RESTARTED) {
+                    Toast.makeText(
+                        context,
+                        "restart success: $resultCode",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(exception: MomentException) {
+                Toast.makeText(context, "restart failure.", Toast.LENGTH_SHORT).show()
+                Log.e(
+                    "MomentSDK",
+                    "restartIfNeeded onFailure(${exception.errorCode.name}): ${exception.message}"
+                )
+            }
+        })
     }
 
     private fun createServiceNotificationChannel() {
