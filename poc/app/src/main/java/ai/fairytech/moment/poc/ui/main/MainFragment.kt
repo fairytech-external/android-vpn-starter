@@ -65,18 +65,11 @@ class MainFragment : Fragment() {
     private val notificationPermissionLauncher: ActivityResultLauncher<String> =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) {
-                Toast.makeText(context, "Notification permission has been granted.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    // 권한 허용
-    private val appUsagePermissionLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (MomentSDK.isAppUsagePermissionGranted(requireContext().applicationContext)) {
-                handleStart()
-            } else {
-                binding.startService.isEnabled = true
-                binding.startService.isChecked = false
+                Toast.makeText(
+                    context,
+                    "Notification permission has been granted.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -119,24 +112,12 @@ class MainFragment : Fragment() {
                     if (MomentSDK.isVpnPermissionGranted(it)) {
                         handleStart()
                     } else {
-                        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) {
-                            val intent = Intent()
-                            intent.setComponent(
-                                ComponentName(
-                                    "com.android.settings",
-                                    "com.android.settings.Settings\$UsageAccessSettingsActivity"
-                                )
-                            )
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
+                        val intent = VpnService.prepare(it)
+                        if (intent != null) {
+                            vpnPermissionLauncher.launch(intent)
                         } else {
-                            val intent = VpnService.prepare(it)
-                            if (intent != null) {
-                                vpnPermissionLauncher.launch(intent)
-                            } else {
-                                Toast.makeText(it, "VPN permission already granted", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
+                            Toast.makeText(it, "VPN permission already granted", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 } else {
@@ -183,7 +164,7 @@ class MainFragment : Fragment() {
 
                 override fun onFailure(e: MomentException) {
                     Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, "Failed to start.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Failed to start. ${e.message}", Toast.LENGTH_SHORT).show()
                         binding.startService.isEnabled = true
                         binding.startService.isChecked = false
                         Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()

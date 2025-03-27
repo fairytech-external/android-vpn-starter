@@ -19,11 +19,14 @@
 package ai.fairytech.moment.poc
 
 import ai.fairytech.moment.MomentSDK
+import ai.fairytech.moment.exception.MomentException
 import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
+import android.widget.Toast
 
 class MyApplication: Application() {
     val moment: MomentSDK by lazy {
@@ -34,12 +37,12 @@ class MyApplication: Application() {
         super.onCreate()
         createServiceNotificationChannel()
         createNotificationChannel()
-        moment.restartIfNeeded(getConfig(context), object :
+        moment.restartIfNeeded(getConfig(applicationContext), object :
             MomentSDK.RestartResultCallback {
             override fun onSuccess(resultCode: MomentSDK.RestartResultCode) {
                 if (resultCode == MomentSDK.RestartResultCode.SERVICE_RESTARTED) {
                     Toast.makeText(
-                        context,
+                        applicationContext,
                         "restart success: $resultCode",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -47,13 +50,21 @@ class MyApplication: Application() {
             }
 
             override fun onFailure(exception: MomentException) {
-                Toast.makeText(context, "restart failure.", Toast.LENGTH_SHORT).show()
-                Log.e(
-                    "MomentSDK",
-                    "restartIfNeeded onFailure(${exception.errorCode.name}): ${exception.message}"
-                )
+                Toast.makeText(applicationContext, "restart failure.", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun getConfig(context: Context): MomentSDK.Config {
+        return MomentSDK.Config(context)
+            .notificationChannelId(NotificationController.NOTIFICATION_CHANNEL_ID)                // Notification channel id
+            .notificationId(NotificationController.NOTIFICATION_ID)                               // Notification id
+            .notificationIconResId(R.drawable.baseline_mood_24)
+            .serviceNotificationChannelId(NotificationController.SERVICE_NOTIFICATION_CHANNEL_ID) // Service notification channel id
+            .serviceNotificationId(NotificationController.SERVICE_NOTIFICATION_ID)
+            .serviceNotificationIconResId(R.drawable.baseline_mood_24)
+            .serviceNotificationTitle("Business recognition service")
+            .serviceNotificationText("Service is running")
     }
 
     private fun createServiceNotificationChannel() {
@@ -97,5 +108,4 @@ class MyApplication: Application() {
         }
     }
 }
-
 
